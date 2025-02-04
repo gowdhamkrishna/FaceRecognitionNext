@@ -1,0 +1,32 @@
+[
+    {
+        "name":"Gowdham",
+        "rollno":1,
+        "present":false
+    },
+    {
+        "name":"Amal",
+        "rollno":2,
+        "present":false
+    },
+    {
+        "name":"Rahul",
+        "rollno":3,
+        "present":false
+    },
+    {
+        "name":"Govind",
+        "rollno":4,
+        "present":false
+    },
+    {
+        "name":"Aravind",
+        "rollno":6,
+        "present":false
+    },
+    {
+        "name":"Ahmed",
+        "rollno":7,
+        "present":false
+    }
+]
