@@ -1,19 +1,6 @@
 [
-  { "label": "kunjatta", "image": "/images/kunja.jpeg" },
-    { "label": "Gowdham", "image": "/images/gowdham.jpeg" },
-    { "label": "Gowdham", "image": "/images/gow.jpeg" },
-    { "label": "Gowdham", "image": "/images/1.jpg" },
-    { "label": "Gowdham", "image": "/images/2.jpg" },
-    { "label": "Gowdham", "image": "/images/3.jpg" },
-    { "label": "Gowdham", "image": "/images/4.jpg" },
-    { "label": "Gowdham", "image": "/images/5.jpg" },
-    { "label": "Gowdham", "image": "/images/6.jpg" },
-    { "label": "Gowdham", "image": "/images/8.jpg" },
-
-    { "label": "Gowdham", "image": "/images/10.jpg" },
-    { "label": "Gowdham", "image": "/images/1.jpg" },
-
-    { "label": "kunjatta", "image": "/images/kunjaa.jpeg" },
-    { "label": "Ronaldo", "image": "/images/ron.png" }
-
+  {"label":"Johan","image":"/images/johan.jpeg"},
+  {"label":"Gowdham","image":"/images/gowdham.jpeg"},
+  {"label":"Jerin","image":"/images/jerin.jpeg"},
+  {"label":"Astin","image":"/images/astin.jpeg"}
   ]

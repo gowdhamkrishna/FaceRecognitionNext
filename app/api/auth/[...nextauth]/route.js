@@ -16,18 +16,19 @@ export const authOptions = {
     }),
   ],
   secret: process.env.AUTH_SECRET,
-
   callbacks: {
     async signIn({ user }) {
       await connectToDatabase();
       const userExist = await Teacher.findOne({ Email: user.email });
-      if(!userExist){
-        redirect('/createAccount');
+      if (!userExist) {
+        // Instead of redirecting here, return false to indicate sign-in failure
+        return true; // This will prevent the sign-in and trigger the error
       }
-     
-      return true;
+      
+      return true; // User exists, allow sign-in
     },
   },
+  
 };
 
 const handler = NextAuth(authOptions);

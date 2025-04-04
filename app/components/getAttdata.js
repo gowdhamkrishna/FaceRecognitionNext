@@ -1,49 +1,135 @@
 "use client"
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import Loader from "./loader";
 
-const GetData = ({ setDisplay ,AttendanceData}) => {
-  
+const GetData = ({ setDisplay, AttendanceData }) => {
+  useEffect(() => {
+    console.log(AttendanceData);
+  }, [AttendanceData])
 
-useEffect(() => {
-console.log(AttendanceData);
-
-}, [AttendanceData])
-
+  // Calculate attendance stats
+  const totalStudents = AttendanceData.students?.length || 0;
+  const presentStudents = AttendanceData.students?.filter(student => student.present).length || 0;
+  const attendancePercentage = totalStudents > 0 ? Math.round((presentStudents / totalStudents) * 100) : 0;
 
   return (
-
-    <div className="left-[25%] w-[50vw] h-[90vh]  flex flex-col absolute z-10 rounded-lg p-4">
-      <nav className="w-full flex justify-end bg-gray-700 p-2">
-        <button
-          onClick={() => setDisplay(false)}
-          className="border-2 border-black group hover:border-green-500 w-12 h-12 duration-500 overflow-hidden relative"
-          type="button"
-        >
-          <p className="text-3xl flex items-center justify-center text-black duration-500 relative z-10 group-hover:scale-0">
-            ×
-          </p>
-          <span className="absolute w-full h-full bg-green-500 rotate-45 group-hover:top-9 duration-500 top-12 left-0"></span>
-          <span className="absolute w-full h-full bg-green-500 rotate-45 top-0 group-hover:left-9 duration-500 left-12"></span>
-          <span className="absolute w-full h-full bg-green-500 rotate-45 top-0 group-hover:right-9 duration-500 right-12"></span>
-          <span className="absolute w-full h-full bg-green-500 rotate-45 group-hover:bottom-9 duration-500 bottom-12 right-0"></span>
-        </button>
-      </nav>
-      <div className="p-4 bg-white rounded-lg shadow-md">
-        <h2 className="text-xl font-bold">Session {AttendanceData.sessionNo} - {AttendanceData.subject}</h2>
-        <p>Class Type: {AttendanceData.classType}</p>
-        <p>Session Time: {AttendanceData.sessionTime / 60000} min</p>
-        <p>Timestamp: {new Date(AttendanceData.timestamp).toLocaleString()}</p>
-        <h3 className="mt-4 font-semibold">Students:</h3>
-        <ul className="mt-2">
-          {AttendanceData.students.map((student) => (
-            <li key={student.rollno} className="border-b py-2 flex justify-between">
-              <span>{student.rollno}. {student.name}</span>
-              <span className={student.present ? "text-green-600" : "text-red-600"}>{student.present ? "Present" : "Absent"}</span>
-            </li>
-          ))}
-        </ul>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-70 backdrop-blur-sm">
+      <div className="w-full max-w-4xl bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-700 animate-fadeIn">
+        <div className="flex justify-between items-center bg-gradient-to-r from-blue-900 to-indigo-900 px-6 py-4">
+          <h2 className="text-2xl font-bold text-white">Session Details</h2>
+          <button
+            onClick={() => setDisplay(false)}
+            className="group relative w-10 h-10 rounded-full flex items-center justify-center border-2 border-gray-400 hover:border-red-500 transition-colors duration-300 focus:outline-none"
+            aria-label="Close"
+          >
+            <svg className="w-6 h-6 text-white group-hover:text-red-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            <span className="absolute w-full h-full rounded-full bg-red-500 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></span>
+          </button>
+        </div>
+        
+        <div className="p-6">
+          {!AttendanceData ? (
+            <Loader />
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="bg-gray-800 rounded-xl p-4 border border-gray-700">
+                  <div className="text-gray-400 text-sm mb-1">Session Info</div>
+                  <div className="flex items-center space-x-2">
+                    <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                    <h3 className="text-xl font-bold text-white">{AttendanceData.subject}</h3>
+                  </div>
+                  <div className="mt-2 text-gray-300">
+                    Session #{AttendanceData.sessionNo} • {AttendanceData.classType}
+                  </div>
+                </div>
+                
+                <div className="bg-gray-800 rounded-xl p-4 border border-gray-700">
+                  <div className="text-gray-400 text-sm mb-1">Time Details</div>
+                  <div className="text-xl font-bold text-white">
+                    {Math.round(AttendanceData.sessionTime / 60000)} minutes
+                  </div>
+                  <div className="mt-2 text-gray-300 text-sm">
+                    {new Date(AttendanceData.timestamp).toLocaleString()}
+                  </div>
+                </div>
+                
+                <div className="bg-gray-800 rounded-xl p-4 border border-gray-700">
+                  <div className="text-gray-400 text-sm mb-1">Attendance Rate</div>
+                  <div className="flex items-center">
+                    <div className="text-xl font-bold text-white">{attendancePercentage}%</div>
+                    <div className="ml-auto rounded-full w-10 h-10 flex items-center justify-center text-sm font-bold" 
+                         style={{ 
+                           backgroundColor: `rgba(${attendancePercentage < 50 ? '239, 68, 68' : attendancePercentage < 75 ? '234, 179, 8' : '34, 197, 94'}, 0.2)`,
+                           color: attendancePercentage < 50 ? '#f87171' : attendancePercentage < 75 ? '#facc15' : '#4ade80'
+                         }}>
+                      {presentStudents}/{totalStudents}
+                    </div>
+                  </div>
+                  <div className="mt-2 w-full bg-gray-700 rounded-full h-2.5">
+                    <div className="h-2.5 rounded-full" 
+                         style={{ 
+                           width: `${attendancePercentage}%`,
+                           backgroundColor: attendancePercentage < 50 ? '#ef4444' : attendancePercentage < 75 ? '#eab308' : '#22c55e'
+                         }}></div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-800 rounded-xl overflow-hidden border border-gray-700">
+                <div className="bg-gray-900 px-6 py-3 border-b border-gray-700">
+                  <h3 className="text-lg font-bold text-white">Student Attendance</h3>
+                </div>
+                
+                <div className="p-2 max-h-[50vh] overflow-y-auto">
+                  <table className="w-full">
+                    <thead className="bg-gray-900 text-xs text-gray-300 uppercase sticky top-0">
+                      <tr>
+                        <th className="px-4 py-2 text-left rounded-l-lg">Roll No</th>
+                        <th className="px-4 py-2 text-left">Student Name</th>
+                        <th className="px-4 py-2 text-center rounded-r-lg">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-700">
+                      {AttendanceData.students?.map((student) => (
+                        <tr key={student.rollno} className="hover:bg-gray-700 transition-colors duration-150">
+                          <td className="px-4 py-3 text-left text-gray-300">
+                            {student.rollno}
+                          </td>
+                          <td className="px-4 py-3 text-left text-white font-medium">
+                            {student.name}
+                          </td>
+                          <td className="px-4 py-3 text-center">
+                            <span className={`px-2 py-1 rounded-full text-xs ${
+                              student.present 
+                                ? "bg-green-900 text-green-300" 
+                                : "bg-red-900 text-red-300"
+                            }`}>
+                              {student.present ? "Present" : "Absent"}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
+      
+      <style jsx>{`
+        @keyframes fadeIn {
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+      `}</style>
     </div>
   );
 };
