@@ -30,3 +30,86 @@ A real-time face recognition application built using **FaceAPI.js**. The system 
 - Recognition from uploaded images
 - Confidence score for matches
 - Fast and lightweight browser-based processing
+  he application loads known faces from `models/faces.json` and the corresponding images from `public/images`.
+
+### Folder Structure
+
+```text
+public/
+├── images/
+│   ├── albin.jpeg
+│   ├── astin.jpeg
+│   ├── gow.jpeg
+│   ├── gowdham.jpeg
+│   ├── jerin.jpeg
+│   ├── johan.jpeg
+│   ├── ron.png
+│   └── image.png
+
+models/
+└── faces.json
+```
+
+### Configure Known Faces
+
+Edit `models/faces.json`:
+
+```json
+[
+  {
+    "label": "Johan",
+    "image": "/images/johan.jpeg"
+  },
+  {
+    "label": "Gowdham",
+    "image": "/images/gowdham.jpeg"
+  },
+  {
+    "label": "Jerin",
+    "image": "/images/jerin.jpeg"
+  },
+  {
+    "label": "Astin",
+    "image": "/images/astin.jpeg"
+  }
+]
+```
+
+### Adding a New Person
+
+1. Add the person's image to the `public/images` directory.
+
+Example:
+
+```text
+public/images/albin.jpeg
+```
+
+2. Add a new entry in `models/faces.json`:
+
+```json
+{
+  "label": "Albin",
+  "image": "/images/albin.jpeg"
+}
+```
+
+### Guidelines
+
+- `label` should contain the person's name.
+- `image` should contain the relative path to the image inside the `public` directory.
+- Use clear, front-facing images with good lighting for better recognition accuracy.
+- Supported formats include JPG, JPEG, and PNG.
+
+### Example with All Available Images
+
+```json
+[
+  { "label": "Johan", "image": "/images/johan.jpeg" },
+  { "label": "Gowdham", "image": "/images/gowdham.jpeg" },
+  { "label": "Jerin", "image": "/images/jerin.jpeg" },
+  { "label": "Astin", "image": "/images/astin.jpeg" },
+  { "label": "Albin", "image": "/images/albin.jpeg" },
+  { "label": "Ron", "image": "/images/ron.png" }
+]
+```
