@@ -31,6 +31,15 @@ A real-time face recognition application built using **FaceAPI.js**. The system 
 - Confidence score for matches
 - Fast and lightweight browser-based processing
   he application loads known faces from `models/faces.json` and the corresponding images from `public/images`.
+  
+### Add .env at project root
+```
+GITHUB_SECRET=secret_value_for_github
+GITHUB_ID=your_github_client_id
+MONGODB_URI=mongodb://localhost:27017/attendance
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+```
 
 ### Folder Structure
 
